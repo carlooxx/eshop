@@ -4,6 +4,7 @@ const app = express();
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import productRoute from "./routes/productRoute.js";
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 dotenv.config();
 //Connect DB
 mongoose.connect(
@@ -16,5 +17,6 @@ app.use("/api/products", productRoute);
 app.get("/", (req, res) => {
   res.send("API is running");
 });
-
+app.use(notFound);
+app.use(errorHandler);
 app.listen(5000, console.log("Server running on port 5000"));
