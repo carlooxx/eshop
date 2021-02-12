@@ -1,14 +1,20 @@
-const express = require("express");
-const products = require("./data/products");
+import express from "express";
+import products from "./data/products.js";
 const app = express();
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import productRoute from "./routes/productRoute.js";
+dotenv.config();
+//Connect DB
+mongoose.connect(
+  process.env.DB_CONNECT,
+  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
+  console.log("Connected to DB")
+);
+app.use("/api/products", productRoute);
+
 app.get("/", (req, res) => {
   res.send("API is running");
 });
-app.get("/api/products", (req, res) => {
-  res.json(products);
-});
-app.get("/api/products/:id", (req, res) => {
-  const product = products.find((product) => product._id === req.params.id);
-  res.json(product);
-});
+
 app.listen(5000, console.log("Server running on port 5000"));
