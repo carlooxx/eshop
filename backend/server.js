@@ -1,10 +1,12 @@
 import express from "express";
-import products from "./data/products.js";
-const app = express();
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import productRoute from "./routes/productRoute.js";
+import userRoute from "./routes/userRoute.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+const app = express();
+
+app.use(express.json());
 dotenv.config();
 //Connect DB
 mongoose.connect(
@@ -13,6 +15,7 @@ mongoose.connect(
   console.log("Connected to DB")
 );
 app.use("/api/products", productRoute);
+app.use("/api/user", userRoute);
 
 app.get("/", (req, res) => {
   res.send("API is running");
