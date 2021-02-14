@@ -58,23 +58,17 @@ router.post("/login", async (req, res) => {
   try {
     //User exist check
     const user = await User.findOne({ email: req.body.email });
-    if (!user) {
-      res.status(400);
-      throw new Error("Invalid Credentials");
-    }
+    if (!user) return res.status(400).send({ msg: "Invalid Credentials" });
 
     //Password = Email check
     const validPass = await bcrypt.compare(req.body.password, user.password);
-    if (!validPass) {
-      res.status(400);
-      throw new Error("Invalid Credentials");
-    }
+    if (!validPass) return res.status(400).send({ msg: "Invalid Credentials" });
+
     // //JWT
     const token = jwt.sign({ id: user._id }, process.env.TOKEN, {
       expiresIn: 360000,
     });
     res.header("auth-token", token);
-    // res.send({ token });
     res.send({
       _id: user._id,
       name: user.name,
@@ -82,8 +76,6 @@ router.post("/login", async (req, res) => {
       isAdmin: user.isAdmin,
       token: token,
     });
-    // res.header("auth-token", token);
-    // res.send({ token });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");
