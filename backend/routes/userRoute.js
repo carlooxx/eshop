@@ -93,4 +93,39 @@ router.get(
     }
   })
 );
+
+//UPDATE user profile
+router.put(
+  "/profile",
+  verify,
+  asyncHandler(async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id);
+
+      if (user) {
+        user.name = req.body.name || user.name;
+        user.email = req.body.email || user.email;
+        if (req.body.password) {
+          //Password encrypt
+          const salt = await bcrypt.genSalt(10);
+          const hashedPassword = await bcrypt.hash(req.body.password, salt);
+          user.password = hashedPassword;
+        }
+      }
+
+      const updateUser = await user.save();
+
+      res.send({
+        _id: updateUser._id,
+        name: updateUser.name,
+        email: updateUser.email,
+        password: updateUser.password,
+      });
+    } catch (err) {
+      res.status(400);
+      throw new Error("Server error");
+    }
+  })
+);
+
 export default router;
