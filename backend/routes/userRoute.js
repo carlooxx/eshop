@@ -43,12 +43,8 @@ router.post(
       res.status(400);
       //Check if user exist
       const emailExist = await User.findOne({ email: req.body.email });
-      if (emailExist) {
-        res.status(400);
-        throw new Error("User already exist");
-      } else {
-        throw new Error("Invalid user data");
-      }
+      if (emailExist)
+        return res.status(400).send({ msg: "User already exist" });
     }
   })
 );

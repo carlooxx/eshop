@@ -6,7 +6,7 @@ import {
   productReducers,
   productDetailReducers,
 } from "./reducers/productReducers.js";
-import { userLoginReducer } from "./reducers/userReducer";
+import { userLoginReducer, userRegisterReducer } from "./reducers/userReducer";
 
 const cartItemsfromStorage = localStorage.getItem("cartItems")
   ? JSON.parse(localStorage.getItem("cartItems"))
@@ -26,6 +26,7 @@ const reducer = combineReducers({
   productDetail: productDetailReducers,
   cart: cartReducer,
   userLogin: userLoginReducer,
+  userRegister: userRegisterReducer,
 });
 const middleware = [thunk];
 

@@ -4,8 +4,11 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGOUT,
+  USER_REGISTER_FAILED,
+  USER_REGISTER_REQUEST,
+  USER_REGISTER_SUCCESS,
 } from "./types";
-
+//User Login
 export const userLoginAction = (email, password) => async (dispatch) => {
   try {
     dispatch({
@@ -29,4 +32,33 @@ export const userLogoutAction = () => (dispatch) => {
   dispatch({
     type: USER_LOGOUT,
   });
+};
+//User Register
+export const userRegisterAction = (name, email, password) => async (
+  dispatch
+) => {
+  try {
+    dispatch({
+      type: USER_REGISTER_REQUEST,
+    });
+    const { data } = await axios.post("/api/user/register", {
+      name,
+      email,
+      password,
+    });
+    dispatch({
+      type: USER_REGISTER_SUCCESS,
+      payload: data,
+    });
+    dispatch({
+      type: USER_LOGIN_SUCCESS,
+      payload: data,
+    });
+    localStorage.setItem("userInfo", JSON.stringify(data));
+  } catch (error) {
+    dispatch({
+      type: USER_REGISTER_FAILED,
+      payload: error.response.data.msg,
+    });
+  }
 };
