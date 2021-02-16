@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import productRoute from "./routes/productRoute.js";
 import userRoute from "./routes/userRoute.js";
+import orderRoute from "./routes/orderRoute.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 const app = express();
 
@@ -16,6 +17,7 @@ mongoose.connect(
 );
 app.use("/api/products", productRoute);
 app.use("/api/user", userRoute);
+app.use("/api/orders", orderRoute);
 
 app.get("/", (req, res) => {
   res.send("API is running");
