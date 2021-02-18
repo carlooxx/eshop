@@ -5,7 +5,10 @@ import {
   cartReducer,
   getShippingAddressReducer,
 } from "./reducers/cartReducer.js";
-import { orderReducers } from "./reducers/orderReducers.js";
+import {
+  orderDetailsReducers,
+  orderReducers,
+} from "./reducers/orderReducers.js";
 import {
   productReducers,
   productDetailReducers,
@@ -47,6 +50,7 @@ const reducer = combineReducers({
   userProfileUpdate: userUpdateProfileReducer,
   shipAddress: cartReducer,
   orderItems: orderReducers,
+  orderDetails: orderDetailsReducers,
 });
 const middleware = [thunk];
 

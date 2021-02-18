@@ -41,4 +41,21 @@ router.post(
     }
   })
 );
+
+//Get ORDER BY id
+router.get(
+  "/:id",
+  verify,
+  asyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id).populate(
+      "user",
+      "name email"
+    );
+    if (order) {
+      res.send(order);
+    } else {
+      return res.status(400).send({ message: "There is no order" });
+    }
+  })
+);
 export default router;
