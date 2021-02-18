@@ -19,6 +19,10 @@ app.use("/api/products", productRoute);
 app.use("/api/user", userRoute);
 app.use("/api/orders", orderRoute);
 
+app.get("/api/config/paypal", (req, res) =>
+  res.send(process.env.PAYPAL_CLIENT_ID)
+);
+
 app.get("/", (req, res) => {
   res.send("API is running");
 });
