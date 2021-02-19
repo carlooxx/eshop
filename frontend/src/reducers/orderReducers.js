@@ -9,6 +9,10 @@ import {
   ORDER_PAY_SUCCESS,
   ORDER_PAY_FAILED,
   ORDER_PAY_RESET,
+  ORDER_LIST_PROFILE_REQUEST,
+  ORDER_LIST_PROFILE_SUCCESS,
+  ORDER_LIST_PROFILE_FAILED,
+  ORDER_DETAILS_RESET,
 } from "../actions/types";
 
 export const orderReducers = (state = {}, action) => {
@@ -77,6 +81,31 @@ export const orderPayReducers = (state = {}, action) => {
       };
     case ORDER_PAY_RESET:
       return {};
+    default:
+      return { state };
+  }
+};
+//Get all ORDERS
+export const getOrdersProfileReducers = (state = { orders: [] }, action) => {
+  switch (action.type) {
+    case ORDER_LIST_PROFILE_REQUEST:
+      return {
+        isLoading: true,
+      };
+    case ORDER_LIST_PROFILE_SUCCESS:
+      return {
+        isLoading: false,
+        orders: action.payload,
+      };
+    case ORDER_LIST_PROFILE_FAILED:
+      return {
+        isLoading: false,
+        error: action.payload,
+      };
+    case ORDER_DETAILS_RESET:
+      return {
+        orders: [],
+      };
     default:
       return { state };
   }

@@ -8,6 +8,9 @@ import {
   ORDER_PAY_REQUEST,
   ORDER_PAY_SUCCESS,
   ORDER_PAY_FAILED,
+  ORDER_LIST_PROFILE_SUCCESS,
+  ORDER_LIST_PROFILE_FAILED,
+  ORDER_LIST_PROFILE_REQUEST,
 } from "./types";
 import axios from "axios";
 export const createOrderAction = (order) => async (dispatch, getState) => {
@@ -103,6 +106,36 @@ export const payOrderAction = (id, paymentResult) => async (
   } catch (error) {
     dispatch({
       type: ORDER_PAY_FAILED,
+      payload: error.response.data.msg,
+    });
+  }
+};
+//Getting all ORDERS for user
+export const getOrderListProfileAction = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_LIST_PROFILE_REQUEST,
+    });
+
+    //Getting TOKEN
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    //Passing TOKEN
+    const config = {
+      headers: {
+        "auth-token": `${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get("/api/orders/myorders", config);
+    dispatch({
+      type: ORDER_LIST_PROFILE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ORDER_LIST_PROFILE_FAILED,
       payload: error.response.data.msg,
     });
   }

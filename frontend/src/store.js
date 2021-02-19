@@ -6,6 +6,7 @@ import {
   getShippingAddressReducer,
 } from "./reducers/cartReducer.js";
 import {
+  getOrdersProfileReducers,
   orderDetailsReducers,
   orderPayReducers,
   orderReducers,
@@ -53,6 +54,7 @@ const reducer = combineReducers({
   orderItems: orderReducers,
   orderDetails: orderDetailsReducers,
   orderPay: orderPayReducers,
+  orderProfileList: getOrdersProfileReducers,
 });
 const middleware = [thunk];
 

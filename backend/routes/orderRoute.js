@@ -1,4 +1,5 @@
 import express from "express";
+import mongoose from "mongoose";
 import asyncHandler from "express-async-handler";
 import Order from "../models/orderModel.js";
 import { verify } from "../verifyToken.js";
@@ -41,6 +42,15 @@ router.post(
     }
   })
 );
+//Getting all ORDERS for user profile
+router.get(
+  "/myorders",
+  verify,
+  asyncHandler(async (req, res) => {
+    const orders = await Order.find({ user: req.user.id });
+    res.json(orders);
+  })
+);
 
 //Get ORDER BY id
 router.get(
@@ -81,4 +91,5 @@ router.put(
     }
   })
 );
+
 export default router;
