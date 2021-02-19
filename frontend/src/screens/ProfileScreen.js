@@ -67,7 +67,7 @@ const RegisterScreen = ({ location, history }) => {
   return (
     <Row>
       <Col md={3}>
-        <h1>Sign In</h1>
+        <h1>MY PROFILE</h1>
         {message && <Message variant="danger">{message}</Message>}
         {success && <Message variant="success">Profile Updated</Message>}
         {error && <Message variant="danger">{error}</Message>}

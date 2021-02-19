@@ -12,7 +12,7 @@ import {
   ORDER_LIST_PROFILE_REQUEST,
   ORDER_LIST_PROFILE_SUCCESS,
   ORDER_LIST_PROFILE_FAILED,
-  ORDER_DETAILS_RESET,
+  ORDER_LIST_PROFILE_RESET,
 } from "../actions/types";
 
 export const orderReducers = (state = {}, action) => {
@@ -102,7 +102,7 @@ export const getOrdersProfileReducers = (state = { orders: [] }, action) => {
         isLoading: false,
         error: action.payload,
       };
-    case ORDER_DETAILS_RESET:
+    case ORDER_LIST_PROFILE_RESET:
       return {
         orders: [],
       };

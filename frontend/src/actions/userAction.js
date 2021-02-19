@@ -1,12 +1,13 @@
 import axios from "axios";
 import {
-  ORDER_DETAILS_RESET,
+  ORDER_LIST_PROFILE_RESET,
   USER_DETAILS_FAILED,
   USER_DETAILS_REQUEST,
   USER_DETAILS_RESET,
   USER_DETAILS_SUCCESS,
   USER_LIST_FAILED,
   USER_LIST_REQUEST,
+  USER_LIST_RESET,
   USER_LIST_SUCCESS,
   USER_LOGIN_FAILED,
   USER_LOGIN_REQUEST,
@@ -41,8 +42,9 @@ export const userLoginAction = (email, password) => async (dispatch) => {
 export const userLogoutAction = () => (dispatch) => {
   localStorage.removeItem("userInfo");
   dispatch({ type: USER_LOGOUT });
-  dispatch({ type: ORDER_DETAILS_RESET });
+  dispatch({ type: ORDER_LIST_PROFILE_RESET });
   dispatch({ type: USER_DETAILS_RESET });
+  dispatch({ type: USER_LIST_RESET });
 };
 //User Register
 export const userRegisterAction = (name, email, password) => async (
