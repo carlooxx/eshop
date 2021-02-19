@@ -5,6 +5,9 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_RESET,
   USER_DETAILS_SUCCESS,
+  USER_LIST_FAILED,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
   USER_LOGIN_FAILED,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -128,6 +131,37 @@ export const userUpdateProfileAction = (user) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_PROFILE_UPDATE_FAILED,
+      payload: error.response.data.msg,
+    });
+  }
+};
+//User PROFILE LIST from ADMIN panel
+export const userListProfileAction = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_LIST_REQUEST,
+    });
+
+    //Getting TOKEN
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    //Passing TOKEN
+    const config = {
+      headers: {
+        "auth-token": `${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get("/api/user/users", config);
+
+    dispatch({
+      type: USER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_LIST_FAILED,
       payload: error.response.data.msg,
     });
   }

@@ -1,5 +1,4 @@
 import express from "express";
-import mongoose from "mongoose";
 import asyncHandler from "express-async-handler";
 import Order from "../models/orderModel.js";
 import { verify } from "../verifyToken.js";

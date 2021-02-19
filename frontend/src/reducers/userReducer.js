@@ -13,6 +13,9 @@ import {
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAILED,
   USER_DETAILS_RESET,
+  USER_LIST_FAILED,
+  USER_LIST_SUCCESS,
+  USER_LIST_REQUEST,
 } from "../actions/types";
 //User LOGIN reducer
 export const userLoginReducer = (state = {}, action) => {
@@ -95,6 +98,26 @@ export const userUpdateProfileReducer = (state = {}, action) => {
         success: true,
       };
     case USER_PROFILE_UPDATE_FAILED:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return { ...state };
+  }
+};
+//List of user profile at Admin panel
+export const userListProfileReducer = (state = { users: {} }, action) => {
+  switch (action.type) {
+    case USER_LIST_REQUEST:
+      return { isLoading: true };
+    case USER_LIST_SUCCESS:
+      return {
+        users: action.payload,
+        isLoading: false,
+        success: true,
+      };
+    case USER_LIST_FAILED:
       return {
         loading: false,
         error: action.payload,
