@@ -127,5 +127,14 @@ router.put(
     }
   })
 );
-
+//Get all users if isAdmin = true
+router.get("/users", verify, async (req, res) => {
+  const users = await User.find({});
+  const user = await User.findById(req.user.id);
+  if (user && user.isAdmin) {
+    res.json(users);
+  } else {
+    return res.status(400).send({ message: "No Admin Authorization" });
+  }
+});
 export default router;
