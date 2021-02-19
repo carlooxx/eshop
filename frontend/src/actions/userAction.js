@@ -1,6 +1,9 @@
 import axios from "axios";
 import {
   ORDER_LIST_PROFILE_RESET,
+  USER_DELETE_FAILED,
+  USER_DELETE_REQUEST,
+  USER_DELETE_SUCCESS,
   USER_DETAILS_FAILED,
   USER_DETAILS_REQUEST,
   USER_DETAILS_RESET,
@@ -164,6 +167,35 @@ export const userListProfileAction = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_LIST_FAILED,
+      payload: error.response.data.msg,
+    });
+  }
+};
+//Delete a user as Admin
+export const userDeleteAction = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_DELETE_REQUEST,
+    });
+
+    //Getting TOKEN
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    //Passing TOKEN
+    const config = {
+      headers: {
+        "auth-token": `${userInfo.token}`,
+      },
+    };
+    await axios.delete(`/api/user/users/${id}`, config);
+    dispatch({
+      type: USER_DELETE_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_DELETE_FAILED,
       payload: error.response.data.msg,
     });
   }

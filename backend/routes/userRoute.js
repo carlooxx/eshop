@@ -127,7 +127,8 @@ router.put(
     }
   })
 );
-//Get all users if isAdmin = true
+
+//Get all users as ADMIN = true
 router.get("/users", verify, async (req, res) => {
   const users = await User.find({});
   const user = await User.findById(req.user.id);
@@ -137,4 +138,49 @@ router.get("/users", verify, async (req, res) => {
     return res.status(400).send({ message: "No Admin Authorization" });
   }
 });
+//Delete a user as ADMIN
+router.delete("/users/:id", verify, async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    await user.remove();
+    res.send({ message: "User removed" });
+  } else {
+    return res.status(500).send({ message: "Server error" });
+  }
+});
+
+//Get user by Id as ADMIN
+router.get("/users/:id", verify, async (req, res) => {
+  const user = await User.findById(req.params.id).select("-password");
+  if (user) {
+    res.json(user);
+  } else {
+    return res.send({ message: "User not found" });
+  }
+});
+//UPDATE any user profile as ADMIN
+router.put(
+  "/users/:id",
+  verify,
+  asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+      user.isAdmin = req.body.isAdmin || user.isAdmin;
+
+      const updatedUser = await user.save();
+
+      res.json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+      });
+    } else {
+      res.status(404).send({ message: "User not found" });
+    }
+  })
+);
 export default router;
