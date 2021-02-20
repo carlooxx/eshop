@@ -182,7 +182,7 @@ export const userDetailsProfileReducer = (state = { user: {} }, action) => {
   }
 };
 //User DETAILS reducer UPDATE
-export const userEditDetailsReducer = (state = {}, action) => {
+export const userEditDetailsReducer = (state = { user: {} }, action) => {
   switch (action.type) {
     case USER_EDIT_UPDATE_REQUEST:
       return { isLoading: true };
