@@ -20,6 +20,14 @@ import {
   USER_DELETE_REQUEST,
   USER_DELETE_SUCCESS,
   USER_DELETE_FAILED,
+  USER_PROFILE_DETAILS_SUCCESS,
+  USER_PROFILE_DETAILS_FAILED,
+  USER_PROFILE_DETAILS_RESET,
+  USER_PROFILE_DETAILS_REQUEST,
+  USER_EDIT_UPDATE_REQUEST,
+  USER_EDIT_UPDATE_SUCCESS,
+  USER_EDIT_UPDATE_FAILED,
+  USER_EDIT_UPDATE_RESET,
 } from "../actions/types";
 //User LOGIN reducer
 export const userLoginReducer = (state = {}, action) => {
@@ -72,7 +80,6 @@ export const userDetailsReducer = (state = { user: {} }, action) => {
       return { ...state, isLoading: true };
     case USER_DETAILS_SUCCESS:
       return {
-        ...state,
         user: action.payload,
         isLoading: false,
       };
@@ -146,6 +153,53 @@ export const userDeleteReducer = (state = {}, action) => {
       return {
         loading: false,
         error: action.payload,
+      };
+    default:
+      return { ...state };
+  }
+};
+//User DETAILS reducer
+export const userDetailsProfileReducer = (state = { user: {} }, action) => {
+  switch (action.type) {
+    case USER_PROFILE_DETAILS_REQUEST:
+      return { ...state, isLoading: true };
+    case USER_PROFILE_DETAILS_SUCCESS:
+      return {
+        user: action.payload,
+        isLoading: false,
+      };
+    case USER_PROFILE_DETAILS_FAILED:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case USER_PROFILE_DETAILS_RESET:
+      return {
+        user: {},
+      };
+    default:
+      return { ...state };
+  }
+};
+//User DETAILS reducer UPDATE
+export const userEditDetailsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_EDIT_UPDATE_REQUEST:
+      return { isLoading: true };
+    case USER_EDIT_UPDATE_SUCCESS:
+      return {
+        userInfo: action.payload,
+        isLoading: false,
+        success: true,
+      };
+    case USER_EDIT_UPDATE_FAILED:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case USER_EDIT_UPDATE_RESET:
+      return {
+        user: {},
       };
     default:
       return { ...state };

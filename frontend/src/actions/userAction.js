@@ -16,12 +16,18 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGOUT,
+  USER_PROFILE_DETAILS_FAILED,
+  USER_PROFILE_DETAILS_REQUEST,
+  USER_PROFILE_DETAILS_SUCCESS,
   USER_PROFILE_UPDATE_FAILED,
   USER_PROFILE_UPDATE_REQUEST,
   USER_PROFILE_UPDATE_SUCCESS,
   USER_REGISTER_FAILED,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
+  USER_EDIT_UPDATE_REQUEST,
+  USER_EDIT_UPDATE_SUCCESS,
+  USER_EDIT_UPDATE_FAILED,
 } from "./types";
 //User Login
 export const userLoginAction = (email, password) => async (dispatch) => {
@@ -190,12 +196,77 @@ export const userDeleteAction = (id) => async (dispatch, getState) => {
       },
     };
     await axios.delete(`/api/user/users/${id}`, config);
+
     dispatch({
       type: USER_DELETE_SUCCESS,
     });
   } catch (error) {
     dispatch({
       type: USER_DELETE_FAILED,
+      payload: error.response.data.msg,
+    });
+  }
+};
+//User DETAILS (Admin)
+export const userProfileDetailsAction = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_PROFILE_DETAILS_REQUEST,
+    });
+
+    //Getting TOKEN
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    //Passing TOKEN
+    const config = {
+      headers: {
+        "auth-token": `${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get(`/api/user/users/${id}`, config);
+
+    dispatch({
+      type: USER_PROFILE_DETAILS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_PROFILE_DETAILS_FAILED,
+      payload: error.response.data.msg,
+    });
+  }
+};
+//User DETAILS UPDATE (Admin)
+export const userEditUpdateAction = (user) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_EDIT_UPDATE_REQUEST,
+    });
+
+    //Getting TOKEN
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    //Passing TOKEN
+    const config = {
+      headers: {
+        "auth-token": `${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.put(
+      `/api/user/users/${user._id}`,
+      user,
+      config
+    );
+
+    dispatch({ type: USER_EDIT_UPDATE_SUCCESS });
+    dispatch({ type: USER_PROFILE_DETAILS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: USER_EDIT_UPDATE_FAILED,
       payload: error.response.data.msg,
     });
   }

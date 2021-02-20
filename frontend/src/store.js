@@ -17,7 +17,9 @@ import {
 } from "./reducers/productReducers.js";
 import {
   userDeleteReducer,
+  userDetailsProfileReducer,
   userDetailsReducer,
+  userEditDetailsReducer,
   userListProfileReducer,
   userLoginReducer,
   userRegisterReducer,
@@ -59,6 +61,8 @@ const reducer = combineReducers({
   orderDetails: orderDetailsReducers,
   orderPay: orderPayReducers,
   orderProfileList: getOrdersProfileReducers,
+  editprofileUpdate: userEditDetailsReducer,
+  profileDetails: userDetailsProfileReducer,
 });
 const middleware = [thunk];
 
