@@ -4,7 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { LinkContainer } from "react-router-bootstrap";
-import { listProducts, productDeleteAction } from "../actions/productsActions";
+import {
+  listProducts,
+  productDeleteAction,
+  productCreateAction,
+} from "../actions/productsActions";
+import { PRODUCT_CREATE_RESET } from "../actions/types";
 
 const ProductsListScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -18,13 +23,27 @@ const ProductsListScreen = ({ history }) => {
   const productDelete = useSelector((state) => state.productDelete);
   const { success } = productDelete;
 
+  const productCreate = useSelector((state) => state.productCreate);
+  const {
+    success: successCreated,
+    product: productCreated,
+    isLoading: isLoadingCreated,
+    error: errorCreated,
+  } = productCreate;
+
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
-      dispatch(listProducts());
-    } else {
+    //So we can go back to product list (if not it will stay success = true)
+    dispatch({ type: PRODUCT_CREATE_RESET });
+    if (!userInfo.isAdmin) {
       history.push("/login");
     }
-  }, [dispatch, history, userInfo, success]);
+
+    if (successCreated) {
+      history.push(`/admin/product/${productCreated._id}/edit`);
+    } else {
+      dispatch(listProducts());
+    }
+  }, [dispatch, history, userInfo, success, successCreated, productCreated]);
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
@@ -32,7 +51,7 @@ const ProductsListScreen = ({ history }) => {
     }
   };
   const createProductHandler = () => {
-    //
+    dispatch(productCreateAction());
   };
   return (
     <>
@@ -46,7 +65,8 @@ const ProductsListScreen = ({ history }) => {
           </Button>
         </Col>
       </Row>
-
+      {isLoadingCreated && <Loader />}
+      {errorCreated && <Message variant="info">{errorCreated}</Message>}
       {isLoading ? (
         <Loader />
       ) : error ? (

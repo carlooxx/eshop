@@ -8,6 +8,10 @@ import {
   PRODUCT_DELETE_REQUEST,
   PRODUCT_DELETE_SUCCESS,
   PRODUCT_DELETE_FAILED,
+  PRODUCT_CREATE_RESET,
+  PRODUCT_CREATE_FAILED,
+  PRODUCT_CREATE_SUCCESS,
+  PRODUCT_CREATE_REQUEST,
 } from "../actions/types";
 
 export const productReducers = (state = { products: [] }, action) => {
@@ -70,6 +74,28 @@ export const productDeleteReducer = (state = {}, action) => {
         loading: false,
         error: action.payload,
       };
+    default:
+      return { ...state };
+  }
+};
+//Create a product as Admin
+export const productCreateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PRODUCT_CREATE_REQUEST:
+      return { isLoading: true };
+    case PRODUCT_CREATE_SUCCESS:
+      return {
+        isLoading: false,
+        success: true,
+        product: action.payload,
+      };
+    case PRODUCT_CREATE_FAILED:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case PRODUCT_CREATE_RESET:
+      return {};
     default:
       return { ...state };
   }
