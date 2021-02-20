@@ -6,6 +6,9 @@ import {
   PRODUCT_DETAIL_FAILED,
   PRODUCT_DETAIL_SUCCESS,
   PRODUCT_DETAIL_REQUEST,
+  PRODUCT_DELETE_REQUEST,
+  PRODUCT_DELETE_SUCCESS,
+  PRODUCT_DELETE_FAILED,
 } from "./types";
 
 export const listProducts = () => async (dispatch) => {
@@ -29,6 +32,36 @@ export const detailProduct = (id) => async (dispatch) => {
     dispatch({
       type: PRODUCT_DETAIL_FAILED,
       payload: error.response && error.response.data.message,
+    });
+  }
+};
+//Delete a product as Admin
+export const productDeleteAction = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: PRODUCT_DELETE_REQUEST,
+    });
+
+    //Getting TOKEN
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    //Passing TOKEN
+    const config = {
+      headers: {
+        "auth-token": `${userInfo.token}`,
+      },
+    };
+    await axios.delete(`/api/products/${id}`, config);
+
+    dispatch({
+      type: PRODUCT_DELETE_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_DELETE_FAILED,
+      payload: error.response.data.msg,
     });
   }
 };

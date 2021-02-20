@@ -5,6 +5,9 @@ import {
   PRODUCT_DETAIL_FAILED,
   PRODUCT_DETAIL_SUCCESS,
   PRODUCT_DETAIL_REQUEST,
+  PRODUCT_DELETE_REQUEST,
+  PRODUCT_DELETE_SUCCESS,
+  PRODUCT_DELETE_FAILED,
 } from "../actions/types";
 
 export const productReducers = (state = { products: [] }, action) => {
@@ -50,5 +53,24 @@ export const productDetailReducers = (
       };
     default:
       return state;
+  }
+};
+//Delete a product as Admin
+export const productDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PRODUCT_DELETE_REQUEST:
+      return { isLoading: true };
+    case PRODUCT_DELETE_SUCCESS:
+      return {
+        isLoading: false,
+        success: true,
+      };
+    case PRODUCT_DELETE_FAILED:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return { ...state };
   }
 };

@@ -14,6 +14,7 @@ import {
 import {
   productReducers,
   productDetailReducers,
+  productDeleteReducer,
 } from "./reducers/productReducers.js";
 import {
   userDeleteReducer,
@@ -49,6 +50,7 @@ const initState = {
 const reducer = combineReducers({
   productList: productReducers,
   productDetail: productDetailReducers,
+  productDelete: productDeleteReducer,
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,

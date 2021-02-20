@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { LinkContainer } from "react-router-bootstrap";
-import { listProducts } from "../actions/productsActions";
+import { listProducts, productDeleteAction } from "../actions/productsActions";
 
 const ProductsListScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -15,17 +15,20 @@ const ProductsListScreen = ({ history }) => {
   const productList = useSelector((state) => state.productList);
   const { products, error, isLoading } = productList;
 
+  const productDelete = useSelector((state) => state.productDelete);
+  const { success } = productDelete;
+
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(listProducts());
     } else {
       history.push("/login");
     }
-  }, [dispatch, history, userInfo]);
+  }, [dispatch, history, userInfo, success]);
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
-      console.log("hi");
+      dispatch(productDeleteAction(id));
     }
   };
   const createProductHandler = () => {
@@ -70,7 +73,7 @@ const ProductsListScreen = ({ history }) => {
                 <td>{product.brand}</td>
 
                 <td>
-                  <LinkContainer to={`/admin/user/${product._id}/edit`}>
+                  <LinkContainer to={`/admin/product/${product._id}/edit`}>
                     <Button variant="light" className="btn-sm">
                       <i className="fas fa-edit"></i>
                     </Button>
