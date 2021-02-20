@@ -49,7 +49,7 @@ router.post(
       price: 0,
       image: "/images/sample.jpg",
       brand: "Sample brand",
-      category: "Sample CAtegory",
+      category: "Sample Category",
       counInStock: 0,
       numReviews: 0,
       description: "Sample description",

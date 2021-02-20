@@ -12,6 +12,9 @@ import {
   PRODUCT_CREATE_FAILED,
   PRODUCT_CREATE_SUCCESS,
   PRODUCT_CREATE_REQUEST,
+  PRODUCT_UPDATE_EDIT_FAILED,
+  PRODUCT_UPDATE_EDIT_SUCCESS,
+  PRODUCT_UPDATE_EDIT_REQUEST,
 } from "./types";
 
 export const listProducts = () => async (dispatch) => {
@@ -68,7 +71,7 @@ export const productDeleteAction = (id) => async (dispatch, getState) => {
     });
   }
 };
-//Create a product as Admin
+//Create a product sample as Admin
 export const productCreateAction = () => async (dispatch, getState) => {
   try {
     dispatch({
@@ -95,6 +98,41 @@ export const productCreateAction = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: PRODUCT_CREATE_FAILED,
+      payload: error.response.data.msg,
+    });
+  }
+};
+//Product edit update as Admin
+export const productUpdateAction = (product) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: PRODUCT_UPDATE_EDIT_REQUEST,
+    });
+
+    //Getting TOKEN
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    //Passing TOKEN
+    const config = {
+      headers: {
+        "auth-token": `${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.put(
+      `/api/products/${product._id}`,
+      product,
+      config
+    );
+
+    dispatch({
+      type: PRODUCT_UPDATE_EDIT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_UPDATE_EDIT_FAILED,
       payload: error.response.data.msg,
     });
   }

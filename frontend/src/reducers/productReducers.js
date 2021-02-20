@@ -12,6 +12,10 @@ import {
   PRODUCT_CREATE_FAILED,
   PRODUCT_CREATE_SUCCESS,
   PRODUCT_CREATE_REQUEST,
+  PRODUCT_UPDATE_EDIT_RESET,
+  PRODUCT_UPDATE_EDIT_FAILED,
+  PRODUCT_UPDATE_EDIT_SUCCESS,
+  PRODUCT_UPDATE_EDIT_REQUEST,
 } from "../actions/types";
 
 export const productReducers = (state = { products: [] }, action) => {
@@ -43,7 +47,6 @@ export const productDetailReducers = (
     case PRODUCT_DETAIL_REQUEST:
       return {
         isLoading: true,
-        product: {},
       };
     case PRODUCT_DETAIL_SUCCESS:
       return {
@@ -96,6 +99,29 @@ export const productCreateReducer = (state = {}, action) => {
       };
     case PRODUCT_CREATE_RESET:
       return {};
+    default:
+      return { ...state };
+  }
+};
+
+//Product update edit as Admin
+export const productUpdateReducer = (state = { product: {} }, action) => {
+  switch (action.type) {
+    case PRODUCT_UPDATE_EDIT_REQUEST:
+      return { isLoading: true };
+    case PRODUCT_UPDATE_EDIT_SUCCESS:
+      return {
+        isLoading: false,
+        success: true,
+        product: action.payload,
+      };
+    case PRODUCT_UPDATE_EDIT_FAILED:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case PRODUCT_UPDATE_EDIT_RESET:
+      return { product: {} };
     default:
       return { ...state };
   }
