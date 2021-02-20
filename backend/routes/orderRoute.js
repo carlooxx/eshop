@@ -90,5 +90,14 @@ router.put(
     }
   })
 );
+//Getting all ORDERS as Admin
+router.get(
+  "/",
+  verify,
+  asyncHandler(async (req, res) => {
+    const orders = await Order.find({}).populate("user", "id name");
+    res.json(orders);
+  })
+);
 
 export default router;

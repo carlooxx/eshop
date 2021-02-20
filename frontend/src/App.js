@@ -16,6 +16,7 @@ import UserListScreen from "./screens/UserListScreen";
 import UserEditScreen from "./screens/UserEditScreen";
 import ProductsListScreen from "./screens/ProductsListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
+import OrderListScreen from "./screens/OrderListScreen";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route exact path="/placeorder" component={PlaceOrderScreen} />
           <Route exact path="/orders/:id" component={OrderScreen} />
           <Route exact path="/admin/userlist" component={UserListScreen} />
+          <Route exact path="/admin/orderlist" component={OrderListScreen} />
           <Route exact path="/admin/user/:id/edit" component={UserEditScreen} />
           <Route
             exact

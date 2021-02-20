@@ -13,6 +13,10 @@ import {
   ORDER_LIST_PROFILE_SUCCESS,
   ORDER_LIST_PROFILE_FAILED,
   ORDER_LIST_PROFILE_RESET,
+  ORDER_LIST_REQUEST,
+  ORDER_LIST_SUCCESS,
+  ORDER_LIST_FAILED,
+  ORDER_LIST_RESET,
 } from "../actions/types";
 
 export const orderReducers = (state = {}, action) => {
@@ -85,7 +89,7 @@ export const orderPayReducers = (state = {}, action) => {
       return { state };
   }
 };
-//Get all ORDERS
+//Get all ORDERS for profile
 export const getOrdersProfileReducers = (state = { orders: [] }, action) => {
   switch (action.type) {
     case ORDER_LIST_PROFILE_REQUEST:
@@ -103,6 +107,31 @@ export const getOrdersProfileReducers = (state = { orders: [] }, action) => {
         error: action.payload,
       };
     case ORDER_LIST_PROFILE_RESET:
+      return {
+        orders: [],
+      };
+    default:
+      return { state };
+  }
+};
+//Get all ORDERS as Admin
+export const ordersListReducers = (state = { orders: [] }, action) => {
+  switch (action.type) {
+    case ORDER_LIST_REQUEST:
+      return {
+        isLoading: true,
+      };
+    case ORDER_LIST_SUCCESS:
+      return {
+        isLoading: false,
+        orders: action.payload,
+      };
+    case ORDER_LIST_FAILED:
+      return {
+        isLoading: false,
+        error: action.payload,
+      };
+    case ORDER_LIST_RESET:
       return {
         orders: [],
       };

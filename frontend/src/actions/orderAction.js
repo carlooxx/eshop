@@ -11,6 +11,9 @@ import {
   ORDER_LIST_PROFILE_SUCCESS,
   ORDER_LIST_PROFILE_FAILED,
   ORDER_LIST_PROFILE_REQUEST,
+  ORDER_LIST_REQUEST,
+  ORDER_LIST_SUCCESS,
+  ORDER_LIST_FAILED,
 } from "./types";
 import axios from "axios";
 export const createOrderAction = (order) => async (dispatch, getState) => {
@@ -110,7 +113,7 @@ export const payOrderAction = (id, paymentResult) => async (
     });
   }
 };
-//Getting all ORDERS for user
+//Getting all ORDERS as user
 export const getOrderListProfileAction = () => async (dispatch, getState) => {
   try {
     dispatch({
@@ -136,6 +139,36 @@ export const getOrderListProfileAction = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ORDER_LIST_PROFILE_FAILED,
+      payload: error.response.data.msg,
+    });
+  }
+};
+//Getting all ORDERS as Admin
+export const orderListAction = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_LIST_REQUEST,
+    });
+
+    //Getting TOKEN
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    //Passing TOKEN
+    const config = {
+      headers: {
+        "auth-token": `${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get("/api/orders/", config);
+    dispatch({
+      type: ORDER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ORDER_LIST_FAILED,
       payload: error.response.data.msg,
     });
   }
