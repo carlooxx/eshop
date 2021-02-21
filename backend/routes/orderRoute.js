@@ -90,6 +90,22 @@ router.put(
     }
   })
 );
+//Set as delivered
+router.put(
+  "/:id/deliver",
+  verify,
+  asyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id);
+    if (order) {
+      order.isDelivered = true;
+      order.deliveredAt = Date.now();
+      const updatedOrder = await order.save();
+      res.send(updatedOrder);
+    } else {
+      return res.status(400).send({ message: "There is no order" });
+    }
+  })
+);
 //Getting all ORDERS as Admin
 router.get(
   "/",

@@ -17,6 +17,10 @@ import {
   ORDER_LIST_SUCCESS,
   ORDER_LIST_FAILED,
   ORDER_LIST_RESET,
+  ORDER_DELIVER_RESET,
+  ORDER_DELIVER_FAILED,
+  ORDER_DELIVER_SUCCESS,
+  ORDER_DELIVER_REQUEST,
 } from "../actions/types";
 
 export const orderReducers = (state = {}, action) => {
@@ -66,7 +70,7 @@ export const orderDetailsReducers = (
   }
 };
 
-//Get ORDER DETAILS
+//Get ORDER DETAILS/ set isPaid = true
 export const orderPayReducers = (state = {}, action) => {
   switch (action.type) {
     case ORDER_PAY_REQUEST:
@@ -84,6 +88,29 @@ export const orderPayReducers = (state = {}, action) => {
         error: action.payload,
       };
     case ORDER_PAY_RESET:
+      return {};
+    default:
+      return { state };
+  }
+};
+//Set is delivered = true
+export const orderDeliverReducers = (state = {}, action) => {
+  switch (action.type) {
+    case ORDER_DELIVER_REQUEST:
+      return {
+        isLoading: true,
+      };
+    case ORDER_DELIVER_SUCCESS:
+      return {
+        isLoading: false,
+        success: true,
+      };
+    case ORDER_DELIVER_FAILED:
+      return {
+        isLoading: false,
+        error: action.payload,
+      };
+    case ORDER_DELIVER_RESET:
       return {};
     default:
       return { state };

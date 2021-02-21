@@ -14,6 +14,9 @@ import {
   ORDER_LIST_REQUEST,
   ORDER_LIST_SUCCESS,
   ORDER_LIST_FAILED,
+  ORDER_DELIVER_REQUEST,
+  ORDER_DELIVER_FAILED,
+  ORDER_DELIVER_SUCCESS,
 } from "./types";
 import axios from "axios";
 export const createOrderAction = (order) => async (dispatch, getState) => {
@@ -109,6 +112,40 @@ export const payOrderAction = (id, paymentResult) => async (
   } catch (error) {
     dispatch({
       type: ORDER_PAY_FAILED,
+      payload: error.response.data.msg,
+    });
+  }
+};
+//Update state with isDelivered: true
+export const deliverAction = (order) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_DELIVER_REQUEST,
+    });
+
+    //Getting TOKEN
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    //Passing TOKEN
+    const config = {
+      headers: {
+        "auth-token": `${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.put(
+      `/api/orders/${order._id}/deliver`,
+      order,
+      config
+    );
+    dispatch({
+      type: ORDER_DELIVER_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ORDER_DELIVER_FAILED,
       payload: error.response.data.msg,
     });
   }

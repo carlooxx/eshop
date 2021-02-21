@@ -41,7 +41,14 @@ const UserListScreen = ({ history }) => {
       ) : !success ? (
         <Message variant="info">{error}</Message>
       ) : (
-        <Table striped bordered hover responsive className="table-sm">
+        <Table
+          striped
+          bordered
+          hover
+          responsive
+          className="table-sm"
+          style={{ textAlign: "center" }}
+        >
           <thead>
             <tr>
               <th>ID</th>

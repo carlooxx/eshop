@@ -14,7 +14,7 @@ const OrderListScreen = ({ history }) => {
 
   const orderList = useSelector((state) => state.orderList);
   const { isLoading, error, orders } = orderList;
-  console.log(orders);
+
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(orderListAction());

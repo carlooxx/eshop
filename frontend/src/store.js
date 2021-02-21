@@ -7,6 +7,7 @@ import {
 } from "./reducers/cartReducer.js";
 import {
   getOrdersProfileReducers,
+  orderDeliverReducers,
   orderDetailsReducers,
   orderPayReducers,
   orderReducers,
@@ -69,6 +70,7 @@ const reducer = combineReducers({
   orderPay: orderPayReducers,
   orderProfileList: getOrdersProfileReducers,
   orderList: ordersListReducers,
+  orderDeliver: orderDeliverReducers,
   editprofileUpdate: userEditDetailsReducer,
   profileDetails: userDetailsProfileReducer,
 });
