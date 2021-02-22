@@ -9,7 +9,17 @@ const router = express.Router();
 router.get(
   "/",
   asyncHandler(async (req, res) => {
-    const products = await Product.find({});
+    //match with keyword
+    const keyword = req.query.keyword
+      ? {
+          name: {
+            $regex: req.query.keyword,
+            $options: "i",
+          },
+        }
+      : {};
+
+    const products = await Product.find({ ...keyword });
     res.json(products);
   })
 );
