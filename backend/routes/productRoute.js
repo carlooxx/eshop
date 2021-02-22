@@ -2,6 +2,7 @@ import express from "express";
 import Product from "../models/porductModel.js";
 import asyncHandler from "express-async-handler";
 import { verify } from "../verifyToken.js";
+import User from "../models/userModel.js";
 const router = express.Router();
 
 //Get all products
@@ -92,4 +93,45 @@ router.put(
     }
   })
 );
+//Adding comment at product
+router.post(
+  "/:id/reviews",
+  verify,
+  asyncHandler(async (req, res) => {
+    const { rating, comment } = req.body;
+
+    const product = await Product.findById(req.params.id);
+    req.user = await User.findById(req.user.id);
+    if (product) {
+      const alreadyReviewed = product.reviews.find(
+        (r) => r.user.toString() === req.user.id.toString()
+      );
+
+      if (alreadyReviewed) {
+        return res.status(400).send({ msg: "Product already reviewed" });
+      }
+
+      const review = {
+        user: req.user.id,
+        name: req.user.name,
+        rating: Number(rating),
+        comment,
+      };
+
+      product.reviews.push(review);
+
+      product.numReviews = product.reviews.length;
+
+      product.rating =
+        product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+        product.reviews.length;
+
+      await product.save();
+      res.status(200).json({ message: "Review added" });
+    } else {
+      res.status(400).send({ message: "Product not found" });
+    }
+  })
+);
+
 export default router;

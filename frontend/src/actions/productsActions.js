@@ -15,6 +15,9 @@ import {
   PRODUCT_UPDATE_EDIT_FAILED,
   PRODUCT_UPDATE_EDIT_SUCCESS,
   PRODUCT_UPDATE_EDIT_REQUEST,
+  PRODUCT_CREATE_REVIEW_REQUEST,
+  PRODUCT_CREATE_REVIEW_SUCCESS,
+  PRODUCT_CREATE_REVIEW_FAILED,
 } from "./types";
 
 export const listProducts = () => async (dispatch) => {
@@ -133,6 +136,39 @@ export const productUpdateAction = (product) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: PRODUCT_UPDATE_EDIT_FAILED,
+      payload: error.response.data.msg,
+    });
+  }
+};
+//Product create review
+export const productCreateReviewAction = (productId, review) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: PRODUCT_CREATE_REVIEW_REQUEST,
+    });
+
+    //Getting TOKEN
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    //Passing TOKEN
+    const config = {
+      headers: {
+        "auth-token": `${userInfo.token}`,
+      },
+    };
+    await axios.post(`/api/products/${productId}/reviews`, review, config);
+
+    dispatch({
+      type: PRODUCT_CREATE_REVIEW_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_CREATE_REVIEW_FAILED,
       payload: error.response.data.msg,
     });
   }

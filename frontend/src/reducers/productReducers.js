@@ -16,6 +16,10 @@ import {
   PRODUCT_UPDATE_EDIT_FAILED,
   PRODUCT_UPDATE_EDIT_SUCCESS,
   PRODUCT_UPDATE_EDIT_REQUEST,
+  PRODUCT_CREATE_REVIEW_REQUEST,
+  PRODUCT_CREATE_REVIEW_SUCCESS,
+  PRODUCT_CREATE_REVIEW_FAILED,
+  PRODUCT_CREATE_REVIEW_RESET,
 } from "../actions/types";
 
 export const productReducers = (state = { products: [] }, action) => {
@@ -122,6 +126,27 @@ export const productUpdateReducer = (state = { product: {} }, action) => {
       };
     case PRODUCT_UPDATE_EDIT_RESET:
       return { product: {} };
+    default:
+      return { ...state };
+  }
+};
+//Product create review
+export const productCreateReviewReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PRODUCT_CREATE_REVIEW_REQUEST:
+      return { isLoading: true };
+    case PRODUCT_CREATE_REVIEW_SUCCESS:
+      return {
+        isLoading: false,
+        success: true,
+      };
+    case PRODUCT_CREATE_REVIEW_FAILED:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case PRODUCT_CREATE_REVIEW_RESET:
+      return {};
     default:
       return { ...state };
   }
