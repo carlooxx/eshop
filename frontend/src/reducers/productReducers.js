@@ -32,7 +32,9 @@ export const productReducers = (state = { products: [] }, action) => {
     case PRODUCT_LIST_SUCCESS:
       return {
         isLoading: false,
-        products: action.payload,
+        products: action.payload.products,
+        pages: action.payload.pages,
+        page: action.payload.page,
       };
     case PRODUCT_LIST_FAILED:
       return {

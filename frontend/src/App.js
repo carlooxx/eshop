@@ -25,6 +25,12 @@ function App() {
       <main className="py-3">
         <Container>
           <Route exact path="/" component={HomeScreen} />
+          <Route exact path="/page/:pageNumber" component={HomeScreen} />
+          <Route
+            exact
+            path="/search/:keyword/page/:pageNumber"
+            component={HomeScreen}
+          />
           <Route exact path="/search/:keyword" component={HomeScreen} />
           <Route exact path="/product/:id" component={ProductScreen} />
           <Route exact path="/register" component={RegisterScreen} />
@@ -45,6 +51,11 @@ function App() {
           <Route
             exact
             path="/admin/productslist"
+            component={ProductsListScreen}
+          />
+          <Route
+            exact
+            path="/admin/productslist/:pageNumber"
             component={ProductsListScreen}
           />
           <Route path="/cart/:id?" component={CartScreen} />
