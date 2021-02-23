@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Row, Col } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Row, Col, Button } from "react-bootstrap";
 import Product from "../components/Product.js";
 import { listProducts } from "../actions/productsActions";
 import { useSelector, useDispatch } from "react-redux";
@@ -7,6 +7,7 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Paginate from "../components/Paginate";
 import ProductCarousel from "../components/ProductCarousel";
+import { Link } from "react-router-dom";
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword;
@@ -23,7 +24,15 @@ const HomeScreen = ({ match }) => {
   }, [dispatch, keyword, pageNumber]);
   return (
     <>
-      {!keyword && <ProductCarousel />}
+      {!keyword ? (
+        <ProductCarousel />
+      ) : (
+        <Link to="/">
+          <Button className="btn btn-light" variant="light">
+            Go Back
+          </Button>
+        </Link>
+      )}
       <h1>Latest Products</h1>
       {isLoading ? (
         <Loader />

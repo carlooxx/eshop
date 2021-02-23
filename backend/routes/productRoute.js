@@ -10,7 +10,7 @@ router.get(
   "/",
   asyncHandler(async (req, res) => {
     //product per page
-    const pageSize = 10;
+    const pageSize = 5;
     //curent page or page br 1
     const page = Number(req.query.pageNumber || 1);
     //match with keyword
