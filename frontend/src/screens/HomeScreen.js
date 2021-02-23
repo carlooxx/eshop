@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Paginate from "../components/Paginate";
+import ProductCarousel from "../components/ProductCarousel";
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword;
@@ -22,6 +23,7 @@ const HomeScreen = ({ match }) => {
   }, [dispatch, keyword, pageNumber]);
   return (
     <>
+      {!keyword && <ProductCarousel />}
       <h1>Latest Products</h1>
       {isLoading ? (
         <Loader />
@@ -31,7 +33,7 @@ const HomeScreen = ({ match }) => {
         <>
           <Row>
             {products.map((product) => (
-              <Col sm={12} md={6} lg={4} xl={3} key={product._id}>
+              <Col sm={12} md={6} lg={4} xl={4} key={product._id}>
                 <Product product={product} />
               </Col>
             ))}

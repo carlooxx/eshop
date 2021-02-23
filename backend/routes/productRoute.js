@@ -30,7 +30,15 @@ router.get(
     res.json({ products, page, pages: Math.ceil(count / pageSize) });
   })
 );
+//Top rated product carousel
+router.get(
+  "/top",
+  asyncHandler(async (req, res) => {
+    const products = await Product.find({}).sort({ rating: -1 }).limit(3);
 
+    res.json(products);
+  })
+);
 //Get product by ID
 router.get(
   "/:id",

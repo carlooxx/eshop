@@ -58,7 +58,7 @@ const Rating = ({ value, text }) => {
           }
         ></i>
       </span>
-      <span> {text}</span>
+      <span>{text}</span>
     </div>
   );
 };
