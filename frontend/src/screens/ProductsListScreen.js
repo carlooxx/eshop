@@ -33,11 +33,11 @@ const ProductsListScreen = ({ history, match }) => {
     isLoading: isLoadingCreated,
     error: errorCreated,
   } = productCreate;
-
+  console.log(userInfo);
   useEffect(() => {
     //So we can go back to product list (if not it will stay success = true)
     dispatch({ type: PRODUCT_CREATE_RESET });
-    if (!userInfo.isAdmin) {
+    if (!userInfo) {
       history.push("/login");
     }
 

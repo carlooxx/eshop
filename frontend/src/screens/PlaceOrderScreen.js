@@ -56,7 +56,7 @@ const PlaceOrderScreen = ({ history }) => {
             <ListGroup.Item>
               <h2>Shipping</h2>
               <p>
-                <strong>Address:</strong>
+                <strong>Address: </strong>
                 {cart.shipAddress.address}, {cart.shipAddress.city}{" "}
                 {cart.shipAddress.postalCode}, {cart.shipAddress.country}
               </p>
