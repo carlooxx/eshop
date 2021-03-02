@@ -18,14 +18,8 @@
 - Database seeder (products & users)
 
 
-Admin User Credential:
-email: admin@example.com
-pass: 123456
+Admin User Credential: email: admin@example.com // pass: 123456
 
-Test User Credential:
-email: test@example.com  
-pass: qwqwqw
+Test User Credential: email: test@example.com // pass: qwqwqw
 
-PayPal Credential:
-email: braovac@gmail.com
-pass: qwqwqwqw
+PayPal Credential: email: braovac@gmail.com // pass: qwqwqwqw
