@@ -1,5 +1,5 @@
 # E/Shop eCommerce Platform
-> eCommerce platform built with the Monogo DB, Express, ReactJs, NodeJs $ Redux.
+> eCommerce platform built with the Monogo DB, Express, ReactJs, NodeJs & Redux.
 
 ## Features
 
@@ -16,3 +16,16 @@
 - Checkout process (shipping, payment method, etc)
 - PayPal / credit card integration
 - Database seeder (products & users)
+
+
+Admin User Credential:
+email: admin@example.com
+pass: 123456
+
+Test User Credential:
+email: test@example.com  
+pass: qwqwqw
+
+PayPal Credential:
+email: braovac@gmail.com
+pass: qwqwqwqw
